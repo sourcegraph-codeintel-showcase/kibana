@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Install dependencies
-        run: yarn kbn bootstrap --allow-root
+        run: yarn kbn --allow-root bootstrap
       - name: Generate lsif data
         uses: sourcegraph/lsif-node-action@master
       - name: Upload LSIF data
