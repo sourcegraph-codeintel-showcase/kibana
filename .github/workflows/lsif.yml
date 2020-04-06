@@ -4,7 +4,7 @@ on:
 jobs:
   sourcegraph-index:
     runs-on: ubuntu-latest
-    container: node:10.19.0-alpine3.10
+    container: node:10.19.0-buster
     steps:
       - uses: actions/checkout@v1
       - name: Install dependencies
