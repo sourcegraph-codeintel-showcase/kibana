@@ -1,0 +1,21 @@
+name: Index and upload LSIF data to sourcegraph.com
+on:
+  push:
+    branches:
+      - master
+jobs:
+  index-and-upload:
+    runs-on: ubuntu-latest
+    container: node:10.19.0-alpine3.10
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install dependencies
+        run: yarn install # kbn bootstrap
+      - name: Generate LSIF data
+        uses: docker://sourcegraph/lsif-node@sha256:943e620468baa9c1ad01a469e4ada02221105c6c4172542c8136965e482db791
+        with:
+          args: lsif-tsc -p .
+      - name: Upload LSIF data to sourcegraph.com
+        uses: docker://sourcegraph/src-cli:3.16.0@sha256:77bb8714e0eee04a12348696892f21a84b1ba2adee94ecc53683ca8e2d66cc86
+        with:
+          args: lsif upload -no-progress -github-token=${{ secrets.GITHUB_TOKEN }}
